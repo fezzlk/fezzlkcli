@@ -1,9 +1,12 @@
 [package]
-name = "grrs"
+name = "fezzlkcli"
 version = "0.1.0"
 edition = "2018"
+authors = ["fezzlk"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
 structopt = { version = "0.3", default-features = false }
+indicatif = "0.16.2"
+anyhow = "1.0.43"

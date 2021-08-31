@@ -1,25 +1,26 @@
-use structopt::StructOpt;
+use indicatif::ProgressBar;
+// use structopt::StructOpt;
 use anyhow::{Context, Result};
+use std::{thread, time};
 
-/// Search for a pattern in a file and display the lines that contain it.
-#[derive(StructOpt)]
-#[derive(Debug)]
+// #[derive(Debug)]
+// struct CustomError(String);
 
-struct CustomError(String);
-
-struct Cli {
-    /// The pattern to look for
-    pattern: String,
-    /// The path to the file to read
-    #[structopt(parse(from_os_str))]
-    path: std::path::PathBuf,
-    // /// structoptを使って -o, --output の後の引数の型を指定する
-    // #[structopt(short = "o", long = "output")]
-    // outputOpt: String,
-}
+// #[derive(StructOpt)]
+// struct Cli {
+//     /// The pattern to look for
+//     pattern: String,
+//     /// The path to the file to read
+//     #[structopt(parse(from_os_str))]
+//     path: std::path::PathBuf,
+//     // /// structoptを使って -o, --output の後の引数の型を指定する
+//     // #[structopt(short = "o", long = "output")]
+//     // outputOpt: String,
+// }
 
 // fn main() -> Result<(), Box<dyn std::error::Error>> {
-fn main() -> Result<(), CustomError> {
+// fn main() -> Result<(), CustomError> {
+fn main() -> Result<()> {
     // // 引数の取得（from_args()はstructoptが用意した関数?でmain()関数ないでしか使えない）
     // let args = Cli::from_args();
 
@@ -33,15 +34,31 @@ fn main() -> Result<(), CustomError> {
     //         println!("{}", line);
     //     }
     // }
-    // let result = std::fs::read_to_string("test.txt");
-    // // let content = std::fs::read_to_string("test.txt").unwrap(); // shortcut
-    // // let content = std::fs::read_to_string("test.txt")?; // more shortcut
 
+    // let result = std::fs::read_to_string("test.txt");
     // match result { // nicer error handling
     //     Ok(content) => { content },
     //     Err(error) => { panic!("Can't deal with {}, just exit here", error); }
     //     // Err(error) => { return Err(error.into()); }
     // };
+    // // let content = std::fs::read_to_string("test.txt").unwrap(); // shortcut
+    // // let content = std::fs::read_to_string("test.txt")?; // more shortcut
+
+    // プログレスバー
+    let pb = ProgressBar::new(100);
+    for i in 0..100 {
+        let ten_millis = time::Duration::from_millis(10);
+        let now = time::Instant::now();
+
+        thread::sleep(ten_millis);
+
+        assert!(now.elapsed() >= ten_millis);
+        pb.println(format!("[+] finished #{}", i));
+        pb.inc(1);
+    }
+    pb.finish_with_message("done");
+
+    let path = "hoge.txt";
     let content = std::fs::read_to_string(path)
     // .map_err(|err| CustomError(format!("Error reading `{}`: {}", path, err)))?;
     .with_context(|| format!("could not read file `{}`", path))?;
@@ -54,6 +71,5 @@ fn main() -> Result<(), CustomError> {
     //     pattern: pattern,
     //     path: std::path::PathBuf::from(path),
     // };
-}
 
 }
