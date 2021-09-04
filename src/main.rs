@@ -2,6 +2,7 @@ use indicatif::ProgressBar;
 // use structopt::StructOpt;
 use anyhow::{Context, Result};
 use std::{thread, time};
+use log::{info, warn};
 
 // #[derive(Debug)]
 // struct CustomError(String);
@@ -57,6 +58,11 @@ fn main() -> Result<()> {
         pb.inc(1);
     }
     pb.finish_with_message("done");
+
+    // 動かない。。
+    env_logger::init();
+    info!("starting up");
+    warn!("oops, nothing implemented!");
 
     let path = "hoge.txt";
     let content = std::fs::read_to_string(path)
