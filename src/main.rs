@@ -1,7 +1,6 @@
 use structopt::StructOpt;
 use anyhow::{Context, Result};
-use std::io::{stdout, Write};
-use curl::easy::Easy;
+use reqwest::Client;
 
 #[derive(StructOpt)]
 struct Args {
@@ -13,17 +12,18 @@ fn main() -> Result<()> {
     // 引数の取得
     let args = Args::from_args();
 
-    let mut easy = Easy::new();
-    
-    easy.url("https://www.rust-lang.org/").unwrap();
-    easy.write_function(|data| {
-        stdout().write_all(data).unwrap();
-        Ok(data.len())
-    }).unwrap();
-    easy.perform().unwrap();
+    const url: &str = "";
+    const api_token: &str = "";
+    const server_url: &str = "";
 
-    println!("{}", easy.response_code().unwrap());
+    // This will POST a body of `foo=bar&baz=quux`
+    let params = [("url", url), ("apiTokenForExtension", api_token)];
+    let client = reqwest::Client::new();
+    let res = client.post(server_url)
+        .form(&params)
+        .send();
 
+    // apiTokenForExtension
     println!("command: {}", &args.command);
     println!("target: {}", &args.target);
     Ok(())

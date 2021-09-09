@@ -9,4 +9,4 @@ authors = ["fezzlk"]
 [dependencies]
 structopt = { version = "0.3", default-features = false }
 anyhow = "1.0.43"
-curl = "0.4.38"
+reqwest = "0.11.4"
